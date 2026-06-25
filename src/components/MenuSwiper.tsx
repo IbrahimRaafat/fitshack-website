@@ -11,10 +11,35 @@ export default function MenuSwiper() {
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  function goTo(index: number) {
+    swiperRef.current?.slideTo(index);
+  }
+
   return (
     <div className="flex flex-col flex-1 min-h-0">
+      {/* Category tabs */}
+      <div
+        className="flex gap-1 px-2 md:px-4 py-2 overflow-x-auto shrink-0 scrollbar-hide"
+        style={{ background: "var(--green-mid)", borderBottom: "2px solid var(--green-dark)" }}
+      >
+        {menuPages.map((page, i) => (
+          <button
+            key={page.id}
+            onClick={() => goTo(i)}
+            className="px-2 md:px-3 py-1 md:py-1.5 rounded text-xs md:text-sm font-bold whitespace-nowrap transition-colors"
+            style={
+              activeIndex === i
+                ? { background: "white", color: "var(--green-dark)" }
+                : { background: "transparent", color: "white", opacity: 0.85 }
+            }
+          >
+            {page.label}
+          </button>
+        ))}
+      </div>
+
       {/* Swipeable pages */}
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 overflow-hidden">
         <Swiper
           modules={[Keyboard]}
           keyboard={{ enabled: true }}
@@ -24,14 +49,15 @@ export default function MenuSwiper() {
         >
           {menuPages.map((page) => (
             <SwiperSlide key={page.id} className="h-full overflow-y-auto">
-              <div className="flex justify-center p-2 md:p-4" style={{ background: "var(--bg)" }}>
+              <div className="flex justify-center items-start p-2 md:p-4 w-full h-full min-h-screen" style={{ background: "var(--bg)" }}>
                 <Image
                   src={page.image}
                   alt={page.label}
                   width={800}
                   height={1200}
-                  className="w-full max-w-lg h-auto rounded-lg shadow"
+                  className="w-full max-w-md md:max-w-2xl h-auto rounded-lg shadow"
                   priority
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
                 />
               </div>
             </SwiperSlide>
@@ -41,13 +67,13 @@ export default function MenuSwiper() {
 
       {/* Dot indicators */}
       <div
-        className="flex justify-center gap-1.5 py-2 shrink-0"
+        className="flex justify-center gap-1.5 py-2 md:py-3 shrink-0"
         style={{ background: "var(--green-dark)" }}
       >
         {menuPages.map((_, i) => (
           <button
             key={i}
-            onClick={() => swiperRef.current?.slideTo(i)}
+            onClick={() => goTo(i)}
             className="rounded-full transition-all"
             style={{
               width: i === activeIndex ? 20 : 8,
