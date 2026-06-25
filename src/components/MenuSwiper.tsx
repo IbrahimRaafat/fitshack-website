@@ -49,7 +49,7 @@ export default function MenuSwiper() {
         >
           {menuPages.map((page) => (
             <SwiperSlide key={page.id} className="h-full overflow-y-auto">
-              <div className="flex justify-center items-start p-2 md:p-4 w-full h-full min-h-screen" style={{ background: "var(--bg)" }}>
+              <div className="flex flex-col justify-center items-center p-2 md:p-4 w-full h-full" style={{ background: "var(--bg)", touchAction: "manipulation" }}>
                 <Image
                   src={page.image}
                   alt={page.label}
@@ -58,6 +58,7 @@ export default function MenuSwiper() {
                   className="w-full max-w-md md:max-w-2xl h-auto rounded-lg shadow"
                   priority
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 50vw"
+                  style={{ touchAction: "pinch-zoom" }}
                 />
               </div>
             </SwiperSlide>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MenuSwiper from "@/components/MenuSwiper";
+import BottomNav from "@/components/BottomNav";
 
 export default function Home() {
   return (
@@ -7,7 +8,7 @@ export default function Home() {
       {/* Header */}
       <header
         className="shrink-0 flex items-center justify-center py-2 md:py-4"
-        style={{ background: "var(--green-dark)" }}
+        style={{ background: "var(--bg)" }}
       >
         <Image
           src="/logo_no_white.png"
@@ -21,6 +22,9 @@ export default function Home() {
 
       {/* Menu */}
       <MenuSwiper />
+
+      {/* Bottom Nav (mobile only) */}
+      <BottomNav />
     </div>
   );
 }
