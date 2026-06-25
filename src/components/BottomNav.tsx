@@ -85,7 +85,7 @@ export default function BottomNav() {
             className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm transition-colors"
             style={{ color: GREEN }}
           >
-            <Share2 size={18} />
+            <Heart size={18} />
             Instagram
           </a>
           <a
