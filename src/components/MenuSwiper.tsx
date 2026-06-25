@@ -7,9 +7,17 @@ import Image from "next/image";
 import { menuPages } from "@/lib/menuData";
 import { useRef, useState } from "react";
 
-export default function MenuSwiper() {
+interface MenuSwiperProps {
+  activeIndex?: number;
+  onSlideChange?: (index: number) => void;
+}
+
+export default function MenuSwiper({
+  activeIndex: externalIndex = 0,
+  onSlideChange,
+}: MenuSwiperProps) {
   const swiperRef = useRef<SwiperType | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(externalIndex);
 
   function goTo(index: number) {
     swiperRef.current?.slideTo(index);
@@ -44,7 +52,10 @@ export default function MenuSwiper() {
           modules={[Keyboard]}
           keyboard={{ enabled: true }}
           onSwiper={(s) => { swiperRef.current = s; }}
-          onSlideChange={(s) => setActiveIndex(s.activeIndex)}
+          onSlideChange={(s) => {
+            setActiveIndex(s.activeIndex);
+            onSlideChange?.(s.activeIndex);
+          }}
           className="h-full"
         >
           {menuPages.map((page) => (
