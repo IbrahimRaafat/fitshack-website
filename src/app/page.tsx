@@ -1,42 +1,21 @@
-import Navbar from "@/components/Navbar";
-import Link from "next/link";
+import MenuSwiper from "@/components/MenuSwiper";
 
 export default function Home() {
   return (
     <div className="flex flex-col h-full">
-      <Navbar />
-      <main className="flex-1 overflow-y-auto">
-        {/* Hero */}
-        <section className="relative bg-[var(--primary)] text-white px-6 py-24 text-center">
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-4">
-            Fuel Your Hustle.
-          </h1>
-          <p className="text-lg md:text-xl text-red-100 max-w-xl mx-auto mb-8">
-            Fresh, bold, nutritious food crafted for people who move fast and eat smart.
-          </p>
-          <Link
-            href="/menu"
-            className="inline-block bg-white text-[var(--primary)] font-bold px-8 py-3 rounded-full hover:scale-105 transition-transform"
-          >
-            See the Menu
-          </Link>
-        </section>
+      {/* Header */}
+      <header
+        className="shrink-0 flex items-center justify-center py-2 md:py-3"
+        style={{ background: "var(--green-dark)" }}
+      >
+        <div className="text-center">
+          <p className="text-white text-[10px] md:text-xs tracking-widest uppercase opacity-80">By Healthy Food Hub</p>
+          <h1 className="text-white text-xl md:text-2xl font-black tracking-tight leading-none">FitShack</h1>
+        </div>
+      </header>
 
-        {/* Features */}
-        <section className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 px-6 py-16 text-center">
-          {[
-            { icon: "🥗", title: "Always Fresh", body: "Ingredients sourced daily from local farms." },
-            { icon: "⚡", title: "Fast & Fit", body: "Ready in minutes. Macro-balanced for your goals." },
-            { icon: "🔥", title: "Bold Flavors", body: "Healthy never tasted this good. Period." },
-          ].map((f) => (
-            <div key={f.title} className="space-y-2">
-              <div className="text-4xl">{f.icon}</div>
-              <h3 className="font-bold text-lg">{f.title}</h3>
-              <p className="text-gray-500 text-sm">{f.body}</p>
-            </div>
-          ))}
-        </section>
-      </main>
+      {/* Menu */}
+      <MenuSwiper />
     </div>
   );
 }
