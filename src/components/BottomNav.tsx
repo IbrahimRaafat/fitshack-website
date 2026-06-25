@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Share2, Phone, MapPin, Menu, X } from "lucide-react";
+
+const GREEN = "#2c5f1a";
 
 export default function BottomNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -16,37 +19,41 @@ export default function BottomNav() {
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-2xl hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity"
           aria-label="Instagram"
         >
-          📱
+          <Share2 size={28} color={GREEN} />
         </a>
 
         <a
           href="tel:+201000000000"
-          className="text-2xl hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity"
           aria-label="Call"
         >
-          ☎️
+          <Phone size={28} color={GREEN} />
         </a>
 
         <a
           href="https://maps.google.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-2xl hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity"
           aria-label="Location"
         >
-          📍
+          <MapPin size={28} color={GREEN} />
         </a>
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="text-2xl hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity"
           aria-label="Menu"
           aria-expanded={menuOpen}
         >
-          ☰
+          {menuOpen ? (
+            <X size={28} color={GREEN} />
+          ) : (
+            <Menu size={28} color={GREEN} />
+          )}
         </button>
       </nav>
 
@@ -60,13 +67,13 @@ export default function BottomNav() {
 
       {menuOpen && (
         <div
-          className="md:hidden fixed bottom-16 right-4 bg-white rounded-lg shadow-lg z-40 p-4 space-y-3 w-40"
+          className="md:hidden fixed bottom-16 right-4 bg-white rounded-lg shadow-lg z-40 p-4 space-y-3 w-48"
           style={{ background: "var(--bg)", borderTop: "3px solid var(--green-mid)" }}
         >
           <button
             onClick={() => setMenuOpen(false)}
-            className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm"
-            style={{ color: "var(--green-dark)" }}
+            className="w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm flex items-center gap-2 transition-colors"
+            style={{ color: GREEN }}
           >
             📋 View Menu
           </button>
@@ -75,28 +82,31 @@ export default function BottomNav() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
-            className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm"
-            style={{ color: "var(--green-dark)" }}
+            className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm transition-colors"
+            style={{ color: GREEN }}
           >
-            📸 Instagram
+            <Share2 size={18} />
+            Instagram
           </a>
           <a
             href="tel:+201000000000"
             onClick={() => setMenuOpen(false)}
-            className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm"
-            style={{ color: "var(--green-dark)" }}
+            className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm transition-colors"
+            style={{ color: GREEN }}
           >
-            📞 Call Us
+            <Phone size={18} />
+            Call Us
           </a>
           <a
             href="https://maps.google.com"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
-            className="block w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm"
-            style={{ color: "var(--green-dark)" }}
+            className="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 rounded font-semibold text-sm transition-colors"
+            style={{ color: GREEN }}
           >
-            🗺️ Location
+            <MapPin size={18} />
+            Location
           </a>
         </div>
       )}
