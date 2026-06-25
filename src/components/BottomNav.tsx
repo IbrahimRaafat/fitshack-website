@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Share2, Phone, MapPin, Menu, X } from "lucide-react";
+import { Heart, Phone, MapPin, Menu, X } from "lucide-react";
 
 const GREEN = "#2c5f1a";
 
@@ -22,7 +22,7 @@ export default function BottomNav() {
           className="hover:opacity-70 transition-opacity"
           aria-label="Instagram"
         >
-          <Share2 size={28} color={GREEN} />
+          <Heart size={28} color={GREEN} />
         </a>
 
         <a
