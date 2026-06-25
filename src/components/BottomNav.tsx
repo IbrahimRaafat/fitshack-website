@@ -1,7 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { Heart, Phone, MapPin, MessageCircle, Home } from "lucide-react";
+import {
+  BrandInstagram,
+  Phone,
+  MapPin,
+  BrandWhatsapp,
+  Home,
+} from "tabler-icons-react";
 
 const GREEN = "#2c5f1a";
 
@@ -18,28 +23,28 @@ export default function BottomNav() {
           href="https://www.instagram.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity p-2"
           aria-label="Instagram"
         >
-          <Heart size={28} color={GREEN} fill={GREEN} />
+          <BrandInstagram size={28} color={GREEN} stroke="2" />
         </a>
 
         {/* Phone */}
         <a
           href="tel:+201000000000"
-          className="hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity p-2"
           aria-label="Call"
         >
-          <Phone size={28} color={GREEN} />
+          <Phone size={28} color={GREEN} stroke="2" />
         </a>
 
         {/* Home - Center */}
         <a
           href="/"
-          className="hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity p-2"
           aria-label="Home"
         >
-          <Home size={28} color={GREEN} />
+          <Home size={28} color={GREEN} stroke="2" />
         </a>
 
         {/* WhatsApp */}
@@ -47,10 +52,10 @@ export default function BottomNav() {
           href="https://wa.me/201000000000"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity p-2"
           aria-label="WhatsApp"
         >
-          <MessageCircle size={28} color={GREEN} />
+          <BrandWhatsapp size={28} color={GREEN} stroke="2" />
         </a>
 
         {/* Location */}
@@ -58,10 +63,10 @@ export default function BottomNav() {
           href="https://maps.google.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:opacity-70 transition-opacity"
+          className="hover:opacity-70 transition-opacity p-2"
           aria-label="Location"
         >
-          <MapPin size={28} color={GREEN} />
+          <MapPin size={28} color={GREEN} stroke="2" />
         </a>
       </nav>
 
