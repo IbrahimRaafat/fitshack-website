@@ -21,7 +21,10 @@ export default function MenuSwiper({
   const swiperRef = useRef<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = useState(externalIndex);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const panContainerRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(1);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const panStartRef = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
 
   const ZOOM_MIN = 1;
   const ZOOM_MAX = 3;
@@ -43,12 +46,55 @@ export default function MenuSwiper({
   }, []);
 
   const handleZoomOut = useCallback(() => {
-    setZoom((z) => Math.max(z - ZOOM_STEP, ZOOM_MIN));
+    setZoom((z) => {
+      const next = Math.max(z - ZOOM_STEP, ZOOM_MIN);
+      if (next === 1) setPanOffset({ x: 0, y: 0 });
+      return next;
+    });
   }, []);
 
   const handleZoomReset = useCallback(() => {
     setZoom(1);
+    setPanOffset({ x: 0, y: 0 });
   }, []);
+
+  const clampPan = useCallback((x: number, y: number, container: HTMLElement) => {
+    const rect = container.getBoundingClientRect();
+    const maxX = Math.max(0, (rect.width * zoom - rect.width) / 2);
+    const maxY = Math.max(0, (rect.height * zoom - rect.height) / 2);
+    return {
+      x: Math.max(-maxX, Math.min(maxX, x)),
+      y: Math.max(-maxY, Math.min(maxY, y)),
+    };
+  }, [zoom]);
+
+  useEffect(() => {
+    if (zoom <= 1) {
+      setPanOffset({ x: 0, y: 0 });
+    }
+  }, [zoom]);
+
+  function handlePointerDown(e: React.PointerEvent) {
+    if (zoom <= 1) return;
+    panStartRef.current = { x: e.clientX, y: e.clientY, px: panOffset.x, py: panOffset.y };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  }
+
+  function handlePointerMove(e: React.PointerEvent) {
+    if (!panStartRef.current) return;
+    const dx = e.clientX - panStartRef.current.x;
+    const dy = e.clientY - panStartRef.current.y;
+    const container = panContainerRef.current;
+    if (!container) return;
+    const clamped = clampPan(panStartRef.current.px + dx, panStartRef.current.py + dy, container);
+    setPanOffset(clamped);
+  }
+
+  function handlePointerUp() {
+    panStartRef.current = null;
+  }
+
+  const isZoomed = zoom > 1;
 
   return (
     <div className="flex flex-col h-full min-h-0">
@@ -80,6 +126,7 @@ export default function MenuSwiper({
         <Swiper
           modules={[Keyboard]}
           keyboard={{ enabled: true }}
+          allowTouchMove={!isZoomed}
           onSwiper={(s) => {
             swiperRef.current = s;
           }}
@@ -92,20 +139,27 @@ export default function MenuSwiper({
           {menuPages.map((page) => (
             <SwiperSlide key={page.id} className="!h-full !overflow-hidden">
               <div
-                className="w-full h-full overflow-auto scrollbar-hide"
-                style={{ touchAction: zoom > 1 ? "pan-x pan-y" : "manipulation" }}
+                ref={panContainerRef}
+                className={cn(
+                  "w-full h-full overflow-hidden",
+                  isZoomed && "cursor-grab active:cursor-grabbing"
+                )}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerUp}
+                onPointerCancel={handlePointerUp}
               >
                 <div
-                  className="flex justify-center items-center min-h-full"
+                  className="flex justify-center items-center w-full h-full"
                   style={{
-                    transform: `scale(${zoom})`,
-                    transformOrigin: "top center",
-                    transition: "transform 0.2s ease",
+                    transform: `scale(${zoom}) translate(${panOffset.x / zoom}px, ${panOffset.y / zoom}px)`,
+                    transformOrigin: "center center",
+                    transition: panStartRef.current ? "none" : "transform 0.2s ease",
                   }}
                 >
                   <Image
                     src={page.image}
-                    alt={page.label}
+                    alt={`FitShack ${page.label} menu — healthy food in Hurghada and Sahl Hashish`}
                     width={800}
                     height={1200}
                     className="w-full max-w-sm md:max-w-xl lg:max-w-lg xl:max-w-xl h-auto object-contain rounded-xl shadow-md"
@@ -140,7 +194,7 @@ export default function MenuSwiper({
           >
             <ZoomIn className="w-4 h-4 text-foreground" />
           </button>
-          {zoom > 1 && (
+          {isZoomed && (
             <button
               onClick={handleZoomReset}
               className="p-1.5 rounded-md hover:bg-muted transition-colors ml-0.5 border-l border-border"

@@ -5,6 +5,7 @@ import Image from "next/image";
 import MenuSwiper from "@/components/MenuSwiper";
 import Sidebar from "@/components/Sidebar";
 import BottomNav from "@/components/BottomNav";
+import { menuPages } from "@/lib/menuData";
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -33,6 +34,37 @@ export default function Home() {
 
       {/* Bottom nav (mobile only) */}
       <BottomNav />
+
+      {/* SEO: hidden menu content for search engines */}
+      <section className="sr-only" aria-label="FitShack Menu">
+        <h1>FitShack — Healthy Food in Hurghada &amp; Sahl Hashish</h1>
+        <p>
+          FitShack by Healthy Food Hub is a healthy food restaurant in Sahl Hashish,
+          Hurghada, Egypt. We serve deli sandwiches, hot sandwiches, vegan meals,
+          snacks, desserts, and coffee &amp; drinks — all made with fresh,
+          wholesome ingredients. Where Wellness meets Flavor!
+        </p>
+        <h2>Our Menu Categories</h2>
+        <ul>
+          {menuPages.map((page) => (
+            <li key={page.id}>
+              <h3>{page.label}</h3>
+              <p>
+                Browse our {page.label.toLowerCase()} menu at FitShack in Hurghada
+                and Sahl Hashish. Healthy, delicious, and made with care.
+              </p>
+            </li>
+          ))}
+        </ul>
+        <h2>Visit Us</h2>
+        <p>Location: Sahl Hashish, Hurghada, Egypt</p>
+        <p>Phone: +20 114 433 5666</p>
+        <p>
+          Follow us on{" "}
+          <a href="https://www.instagram.com/fitshackhurghada/">Instagram</a> and{" "}
+          <a href="https://www.facebook.com/profile.php?id=61585252553201">Facebook</a>.
+        </p>
+      </section>
     </div>
   );
 }
