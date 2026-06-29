@@ -1,0 +1,19 @@
+ID,Category,Name,Description,Price (EGP),Calories,Protein (g),Carbs (g),Fat (g),Fiber (g),Tags
+deli-1,deli,Classic Chicken Club,Grilled chicken lettuce tomato mayo,45,450,35,40,12,,gluten-free-option
+deli-2,deli,Turkey & Swiss,Sliced turkey with swiss cheese and mustard,50,480,38,42,14,,
+deli-3,deli,Tuna Classic,Fresh tuna salad with crispy lettuce,48,420,32,38,16,,
+hot-1,hot,Spicy Tuna Melt,Tuna cheese jalapeños toasted bread,55,520,32,45,18,,spicy
+hot-2,hot,Grilled Steak Sandwich,Prime beef with caramelized onions,60,580,40,48,20,,
+hot-3,hot,Chicken Panini,Grilled chicken with pesto and mozzarella,52,490,36,44,16,,
+vegan-1,vegan,Buddha Bowl,Quinoa roasted veggies tahini dressing,50,380,12,52,16,8,vegan;vegetarian
+vegan-2,vegan,Falafel Wrap,Crispy falafel with hummus and fresh veggies,45,420,14,58,14,8,vegan;vegetarian
+vegan-3,vegan,Veggie Power Bowl,Mixed greens nuts seeds and plant-based dressing,48,360,11,46,18,10,vegan;vegetarian
+snacks-1,snacks,Hummus & Veggie Platter,Fresh veggies with creamy hummus,30,180,6,20,8,4,vegan;vegetarian
+snacks-2,snacks,Energy Balls,No-bake protein energy bites,20,160,8,18,6,2,vegan;vegetarian;high-protein
+snacks-3,snacks,Greek Yogurt & Berries,Creamy yogurt with mixed fresh berries,25,180,15,22,3,3,vegetarian;high-protein
+desserts-1,desserts,Protein Brownies,Fudgy brownies with added protein,25,220,18,24,6,,high-protein
+desserts-2,desserts,Acai Bowl,Superfood acai with granola and berries,35,280,8,42,9,6,vegan;vegetarian
+desserts-3,desserts,Protein Cheesecake,Creamy cheesecake with whey protein,30,240,20,22,8,,high-protein;vegetarian
+coffee-1,coffee,Protein Coffee,Espresso with protein shake,35,120,20,5,1,,high-protein
+coffee-2,coffee,Green Smoothie,Spinach apple banana and almond milk,28,140,5,28,3,4,vegetarian;vegan
+coffee-3,coffee,Matcha Latte,Traditional matcha with steamed milk,32,160,4,22,6,,vegetarian

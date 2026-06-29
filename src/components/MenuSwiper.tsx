@@ -5,9 +5,10 @@ import { Keyboard } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 import { menuPages } from "@/lib/menuData";
+import MenuItemList from "./MenuItemList";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { ZoomIn, ZoomOut, RotateCcw, List, Image as ImageIcon } from "lucide-react";
 
 interface MenuSwiperProps {
   activeIndex?: number;
@@ -25,6 +26,7 @@ export default function MenuSwiper({
   const [zoom, setZoom] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const panStartRef = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
+  const [viewMode, setViewMode] = useState<"image" | "list">("image");
 
   const ZOOM_MIN = 1;
   const ZOOM_MAX = 3;
@@ -126,7 +128,7 @@ export default function MenuSwiper({
         <Swiper
           modules={[Keyboard]}
           keyboard={{ enabled: true }}
-          allowTouchMove={!isZoomed}
+          allowTouchMove={!isZoomed && viewMode === "image"}
           onSwiper={(s) => {
             swiperRef.current = s;
           }}
@@ -138,70 +140,109 @@ export default function MenuSwiper({
         >
           {menuPages.map((page) => (
             <SwiperSlide key={page.id} className="!h-full !overflow-hidden">
-              <div
-                ref={panContainerRef}
-                className={cn(
-                  "w-full h-full overflow-hidden",
-                  isZoomed && "cursor-grab active:cursor-grabbing"
-                )}
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerUp}
-              >
+              {viewMode === "image" ? (
                 <div
-                  className="flex justify-center items-center w-full h-full"
-                  style={{
-                    transform: `scale(${zoom}) translate(${panOffset.x / zoom}px, ${panOffset.y / zoom}px)`,
-                    transformOrigin: "center center",
-                    transition: panStartRef.current ? "none" : "transform 0.2s ease",
-                  }}
+                  ref={panContainerRef}
+                  className={cn(
+                    "w-full h-full overflow-hidden",
+                    isZoomed && "cursor-grab active:cursor-grabbing"
+                  )}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={handlePointerUp}
+                  onPointerCancel={handlePointerUp}
                 >
-                  <Image
-                    src={page.image}
-                    alt={`FitShack ${page.label} menu — healthy food in Hurghada and Sahl Hashish`}
-                    width={800}
-                    height={1200}
-                    className="w-full max-w-sm md:max-w-xl lg:max-w-lg xl:max-w-xl h-auto object-contain rounded-xl shadow-md"
-                    priority
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 40vw"
-                    draggable={false}
-                  />
+                  <div
+                    className="flex justify-center items-center w-full h-full"
+                    style={{
+                      transform: `scale(${zoom}) translate(${panOffset.x / zoom}px, ${panOffset.y / zoom}px)`,
+                      transformOrigin: "center center",
+                      transition: panStartRef.current ? "none" : "transform 0.2s ease",
+                    }}
+                  >
+                    <Image
+                      src={page.image}
+                      alt={`FitShack ${page.label} menu — healthy food in Hurghada and Sahl Hashish`}
+                      width={800}
+                      height={1200}
+                      className="w-full max-w-sm md:max-w-xl lg:max-w-lg xl:max-w-xl h-auto object-contain rounded-xl shadow-md"
+                      priority
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 40vw"
+                      draggable={false}
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <MenuItemList category={page.id} />
+              )}
             </SwiperSlide>
           ))}
         </Swiper>
 
-        {/* Zoom controls */}
+        {/* View mode & zoom controls */}
         <div className="absolute bottom-3 right-3 flex items-center gap-1 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-md p-1 z-10">
-          <button
-            onClick={handleZoomOut}
-            disabled={zoom <= ZOOM_MIN}
-            className="p-1.5 rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Zoom out"
-          >
-            <ZoomOut className="w-4 h-4 text-foreground" />
-          </button>
-          <span className="text-xs font-medium text-muted-foreground px-1 min-w-[2.5rem] text-center tabular-nums">
-            {Math.round(zoom * 100)}%
-          </span>
-          <button
-            onClick={handleZoomIn}
-            disabled={zoom >= ZOOM_MAX}
-            className="p-1.5 rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Zoom in"
-          >
-            <ZoomIn className="w-4 h-4 text-foreground" />
-          </button>
-          {isZoomed && (
+          {/* View mode toggle */}
+          <div className="flex items-center gap-0.5 border-r border-border pr-1">
             <button
-              onClick={handleZoomReset}
-              className="p-1.5 rounded-md hover:bg-muted transition-colors ml-0.5 border-l border-border"
-              aria-label="Reset zoom"
+              onClick={() => setViewMode("image")}
+              className={cn(
+                "p-1.5 rounded-md transition-colors",
+                viewMode === "image"
+                  ? "bg-primary text-primary-foreground"
+                  : "hover:bg-muted text-muted-foreground"
+              )}
+              aria-label="Image view"
+              title="Image view"
             >
-              <RotateCcw className="w-4 h-4 text-foreground" />
+              <ImageIcon className="w-4 h-4" />
             </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={cn(
+                "p-1.5 rounded-md transition-colors",
+                viewMode === "list"
+                  ? "bg-primary text-primary-foreground"
+                  : "hover:bg-muted text-muted-foreground"
+              )}
+              aria-label="List view"
+              title="List view"
+            >
+              <List className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Zoom controls - only show in image mode */}
+          {viewMode === "image" && (
+            <>
+              <button
+                onClick={handleZoomOut}
+                disabled={zoom <= ZOOM_MIN}
+                className="p-1.5 rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Zoom out"
+              >
+                <ZoomOut className="w-4 h-4 text-foreground" />
+              </button>
+              <span className="text-xs font-medium text-muted-foreground px-1 min-w-[2.5rem] text-center tabular-nums">
+                {Math.round(zoom * 100)}%
+              </span>
+              <button
+                onClick={handleZoomIn}
+                disabled={zoom >= ZOOM_MAX}
+                className="p-1.5 rounded-md hover:bg-muted transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Zoom in"
+              >
+                <ZoomIn className="w-4 h-4 text-foreground" />
+              </button>
+              {isZoomed && (
+                <button
+                  onClick={handleZoomReset}
+                  className="p-1.5 rounded-md hover:bg-muted transition-colors ml-0.5 border-l border-border"
+                  aria-label="Reset zoom"
+                >
+                  <RotateCcw className="w-4 h-4 text-foreground" />
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>

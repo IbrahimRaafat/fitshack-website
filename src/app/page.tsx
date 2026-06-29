@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 import MenuSwiper from "@/components/MenuSwiper";
 import Sidebar from "@/components/Sidebar";
 import BottomNav from "@/components/BottomNav";
+import Loading from "@/components/Loading";
 import { menuPages } from "@/lib/menuData";
 
-export default function Home() {
+function HomeContent() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
@@ -66,5 +67,13 @@ export default function Home() {
         </p>
       </section>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <HomeContent />
+    </Suspense>
   );
 }
