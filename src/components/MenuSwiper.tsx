@@ -6,6 +6,7 @@ import type { Swiper as SwiperType } from "swiper";
 import Image from "next/image";
 import { menuPages } from "@/lib/menuData";
 import MenuItemList from "./MenuItemList";
+import GlobalSearchModal from "./GlobalSearchModal";
 import { useRef, useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { ZoomIn, ZoomOut, RotateCcw, List, Image as ImageIcon } from "lucide-react";
@@ -27,6 +28,7 @@ export default function MenuSwiper({
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const panStartRef = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
   const [viewMode, setViewMode] = useState<"image" | "list">("list");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const ZOOM_MIN = 1;
   const ZOOM_MAX = 3;
@@ -141,6 +143,7 @@ export default function MenuSwiper({
           {menuPages.map((page) => (
             <SwiperSlide key={page.id} className="!h-full !overflow-hidden">
               {viewMode === "image" ? (
+
                 <div
                   ref={panContainerRef}
                   className={cn(
@@ -173,7 +176,10 @@ export default function MenuSwiper({
                   </div>
                 </div>
               ) : (
-                <MenuItemList category={page.id} />
+                <MenuItemList
+                  category={page.id}
+                  onGlobalSearchOpen={() => setIsSearchOpen(true)}
+                />
               )}
             </SwiperSlide>
           ))}
@@ -263,6 +269,18 @@ export default function MenuSwiper({
           />
         ))}
       </div>
+
+      {/* Global Search Modal */}
+      <GlobalSearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSelectItem={(categoryId) => {
+          const categoryIndex = menuPages.findIndex((p) => p.id === categoryId);
+          if (categoryIndex !== -1) {
+            goTo(categoryIndex);
+          }
+        }}
+      />
     </div>
   );
 }

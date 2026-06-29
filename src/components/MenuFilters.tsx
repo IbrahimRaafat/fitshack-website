@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Search } from "lucide-react";
 import { MdFilterListAlt } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import RangeSlider from "./RangeSlider";
@@ -15,9 +15,10 @@ export interface FilterOptions {
 interface MenuFiltersProps {
   onFilterChange: (filters: FilterOptions) => void;
   availableTags: string[];
+  onGlobalSearchOpen?: () => void;
 }
 
-export default function MenuFilters({ onFilterChange, availableTags }: MenuFiltersProps) {
+export default function MenuFilters({ onFilterChange, availableTags, onGlobalSearchOpen }: MenuFiltersProps) {
   const [search, setSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [calorieRange, setCalorieRange] = useState<[number, number]>([0, 1000]);
@@ -58,12 +59,24 @@ export default function MenuFilters({ onFilterChange, availableTags }: MenuFilte
       <input
         type="search"
         inputMode="search"
-        placeholder="Search menu..."
+        placeholder="Search this category..."
         value={search}
         onChange={(e) => handleSearchChange(e.target.value)}
         className="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 bg-card"
         style={{ fontSize: "16px" }}
       />
+
+      {/* Search All Button */}
+      {onGlobalSearchOpen && (
+        <button
+          onClick={onGlobalSearchOpen}
+          className="p-2 rounded-lg bg-muted hover:bg-muted/80 transition-colors text-foreground"
+          title="Search entire menu"
+          aria-label="Search entire menu"
+        >
+          <Search className="w-5 h-5" />
+        </button>
+      )}
 
       {/* Filter Button */}
       <div className="relative">

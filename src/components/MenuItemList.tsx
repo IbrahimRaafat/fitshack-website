@@ -8,6 +8,7 @@ import MenuFilters, { FilterOptions } from "./MenuFilters";
 
 interface MenuItemListProps {
   category: string;
+  onGlobalSearchOpen?: () => void;
 }
 
 // Fuzzy search function - scores based on character proximity
@@ -79,7 +80,7 @@ function NutritionBadges({ nutrition }: { nutrition?: MenuItem["nutrition"] }) {
   );
 }
 
-export default function MenuItemList({ category }: MenuItemListProps) {
+export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemListProps) {
   const currentCategoryItems = getItemsByCategory(category as any);
   const [filters, setFilters] = useState<FilterOptions>({
     search: "",
@@ -161,7 +162,11 @@ export default function MenuItemList({ category }: MenuItemListProps) {
   return (
     <div className="p-4 h-full flex flex-col bg-card">
       <div className="mb-4 flex-shrink-0 sticky top-0 z-40 -mx-4 px-4 py-2 bg-card border-b border-border">
-        <MenuFilters onFilterChange={setFilters} availableTags={availableTags} />
+        <MenuFilters
+          onFilterChange={setFilters}
+          availableTags={availableTags}
+          onGlobalSearchOpen={onGlobalSearchOpen}
+        />
       </div>
       <div className="flex-1 overflow-y-auto space-y-2.5 pr-2">
         {filteredItems.map((item) => (
