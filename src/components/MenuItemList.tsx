@@ -82,27 +82,9 @@ export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemL
 
   return (
     <div className="p-4 h-full flex flex-col bg-card">
-      {/* Universal Note - Always visible at top */}
-      <div className="mb-2 flex-shrink-0 sticky top-0 z-50 -mx-4 px-4 py-2 bg-green-100/50 border-b border-green-200">
-        <p className="text-xs text-green-900 leading-relaxed font-medium">
-          {universalNote}
-        </p>
-      </div>
-
-      {/* Search Bar & Category Notes */}
-      <div className="mb-4 flex-shrink-0 sticky top-10 z-40 -mx-4 px-4 py-2 bg-card border-b border-border space-y-3">
+      {/* Search Bar & Drink Subcategories */}
+      <div className="mb-4 flex-shrink-0 sticky top-0 z-40 -mx-4 px-4 py-2 bg-card border-b border-border space-y-3">
         <MenuFilters onGlobalSearchOpen={onGlobalSearchOpen} />
-
-        {/* Category-specific notes - shown below search */}
-        {categoryNotes[category] && categoryNotes[category].length > 0 && (
-          <div className="bg-green-100/50 border border-green-200 rounded-lg p-3 space-y-1.5">
-            {categoryNotes[category].map((note, idx) => (
-              <p key={idx} className="text-xs text-green-900 leading-relaxed">
-                {note}
-              </p>
-            ))}
-          </div>
-        )}
 
         {/* Drink subcategories */}
         {isDrinksCategory && (
@@ -163,6 +145,27 @@ export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemL
                 )}
               </Card>
             ))}
+
+            {/* Notes at the end */}
+            <div className="mt-6 pt-4 border-t border-border/50 space-y-3">
+              {/* Category-specific notes */}
+              {categoryNotes[category] && categoryNotes[category].length > 0 && (
+                <div className="bg-green-100/50 border border-green-200 rounded-lg p-3 space-y-1.5">
+                  {categoryNotes[category].map((note, idx) => (
+                    <p key={idx} className="text-xs text-green-900 leading-relaxed">
+                      {note}
+                    </p>
+                  ))}
+                </div>
+              )}
+
+              {/* Universal note */}
+              <div className="bg-green-100/50 border border-green-200 rounded-lg p-3">
+                <p className="text-xs text-green-900 leading-relaxed font-medium">
+                  {universalNote}
+                </p>
+              </div>
+            </div>
           </>
         )}
       </div>
