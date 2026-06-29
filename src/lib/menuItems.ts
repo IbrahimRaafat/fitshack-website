@@ -6,6 +6,7 @@ export interface MenuItem {
   price: number;
   currency: string;
   image?: string;
+  drinkSubcategory?: "hot-coffee" | "matcha" | "hot-drinks" | "iced-coffee" | "fresh-juices" | "soft-drinks";
   nutrition?: {
     calories?: number;
     protein?: number; // grams
@@ -13,7 +14,7 @@ export interface MenuItem {
     fat?: number; // grams
     fiber?: number; // grams
   };
-  tags?: string[]; // e.g., ["vegan", "gluten-free", "spicy"]
+  tags?: string[]; // e.g., ["vegan", "gluten-free", "spicy", "high-protein", "low-carb", "keto"]
 }
 
 export const menuItems: MenuItem[] = [
@@ -314,7 +315,7 @@ export const menuItems: MenuItem[] = [
     price: 155,
     currency: "EGP",
     nutrition: { calories: 220, protein: 4.75, carbs: 2, fat: 8.25 },
-    tags: ["keto", "low-carb", "sugar-free"],
+    tags: ["keto", "low-carb"],
   },
   {
     id: "desserts-2",
@@ -324,7 +325,7 @@ export const menuItems: MenuItem[] = [
     price: 150,
     currency: "EGP",
     nutrition: { calories: 390, protein: 6.5, carbs: 4.25, fat: 19.25 },
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "desserts-3",
@@ -384,7 +385,7 @@ export const menuItems: MenuItem[] = [
     price: 185,
     currency: "EGP",
     nutrition: { calories: 300, protein: 9.75, carbs: 2.5, fat: 19.65 },
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "desserts-9",
@@ -492,22 +493,25 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-1",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Espresso",
     price: 60,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-2",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Americano",
     price: 90,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-3",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Cappuccino",
     price: 100,
     currency: "EGP",
@@ -516,6 +520,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-4",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Latte",
     price: 140,
     currency: "EGP",
@@ -524,6 +529,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-5",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Cortado",
     price: 120,
     currency: "EGP",
@@ -532,6 +538,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-6",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Flat White",
     price: 150,
     currency: "EGP",
@@ -540,6 +547,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-7",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Mocha",
     price: 180,
     currency: "EGP",
@@ -548,6 +556,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-8",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Macchiato",
     price: 70,
     currency: "EGP",
@@ -556,6 +565,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-9",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Caramel Macchiato",
     price: 140,
     currency: "EGP",
@@ -564,22 +574,25 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-10",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Turkish Coffee",
     price: 50,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-11",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "French Coffee",
     price: 60,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-12",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Hazelnut Coffee",
     price: 75,
     currency: "EGP",
@@ -588,6 +601,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-13",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Nutella Coffee",
     price: 85,
     currency: "EGP",
@@ -596,6 +610,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-14",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Spanish Latte",
     price: 180,
     currency: "EGP",
@@ -604,15 +619,17 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-15",
     category: "coffee",
+    drinkSubcategory: "hot-coffee",
     name: "Filter Coffee",
     price: 150,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   // MATCHA
   {
     id: "coffee-16",
     category: "coffee",
+    drinkSubcategory: "matcha",
     name: "Matcha Tea",
     price: 60,
     currency: "EGP",
@@ -621,6 +638,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-17",
     category: "coffee",
+    drinkSubcategory: "matcha",
     name: "Matcha Latte",
     price: 100,
     currency: "EGP",
@@ -629,6 +647,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-18",
     category: "coffee",
+    drinkSubcategory: "matcha",
     name: "Matcha Honey Latte",
     price: 120,
     currency: "EGP",
@@ -638,6 +657,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-19",
     category: "coffee",
+    drinkSubcategory: "hot-drinks",
     name: "Hot Chocolate",
     price: 100,
     currency: "EGP",
@@ -646,6 +666,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-20",
     category: "coffee",
+    drinkSubcategory: "hot-drinks",
     name: "Apple Cider",
     price: 80,
     currency: "EGP",
@@ -654,39 +675,44 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-21",
     category: "coffee",
+    drinkSubcategory: "hot-drinks",
     name: "Detox Tea",
     price: 75,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-22",
     category: "coffee",
+    drinkSubcategory: "hot-drinks",
     name: "Herbal Tea",
     price: 60,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-23",
     category: "coffee",
+    drinkSubcategory: "hot-drinks",
     name: "Black/Green Tea",
     price: 45,
     currency: "EGP",
-    tags: ["sugar-free", "vegan"],
+    tags: [],
   },
   // ICED COFFEE
   {
     id: "coffee-24",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Americano",
     price: 95,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-25",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Orange Americano",
     price: 120,
     currency: "EGP",
@@ -695,6 +721,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-26",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Cappuccino Freddo",
     price: 105,
     currency: "EGP",
@@ -703,22 +730,25 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-27",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Espresso Freddo",
     price: 85,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-28",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Filter Coffee",
     price: 155,
     currency: "EGP",
-    tags: ["sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-29",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Caramel Macchiato",
     price: 150,
     currency: "EGP",
@@ -727,6 +757,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-30",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Mocha",
     price: 190,
     currency: "EGP",
@@ -735,6 +766,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-31",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Latte",
     price: 145,
     currency: "EGP",
@@ -743,6 +775,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-32",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Iced Matcha Latte",
     price: 110,
     currency: "EGP",
@@ -751,6 +784,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-33",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Frappuccino",
     price: 150,
     currency: "EGP",
@@ -759,6 +793,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-34",
     category: "coffee",
+    drinkSubcategory: "iced-coffee",
     name: "Milkshake",
     price: 130,
     currency: "EGP",
@@ -768,136 +803,172 @@ export const menuItems: MenuItem[] = [
   {
     id: "coffee-35",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Avocado",
     price: 180,
     currency: "EGP",
-    tags: ["vegan", "high-protein"],
+    tags: [],
   },
   {
     id: "coffee-36",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Kiwi",
     price: 130,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-37",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Strawberry",
     price: 90,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-38",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Strawberry Lemonade",
     price: 120,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-39",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Guava",
     price: 90,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-40",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Lemon",
     price: 65,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-41",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Lemon Mint",
     price: 75,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-42",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Orange",
     price: 65,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-43",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Mango",
     price: 100,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-44",
     category: "coffee",
+    drinkSubcategory: "fresh-juices",
     name: "Fresh Mix Juice",
     price: 180,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   // SOFT DRINKS
   {
     id: "coffee-45",
     category: "coffee",
+    drinkSubcategory: "soft-drinks",
     name: "Green Cola",
     price: 50,
     currency: "EGP",
-    tags: ["vegan", "sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-46",
     category: "coffee",
+    drinkSubcategory: "soft-drinks",
     name: "V Cola",
     price: 35,
     currency: "EGP",
-    tags: ["vegan"],
+    tags: [],
   },
   {
     id: "coffee-47",
     category: "coffee",
+    drinkSubcategory: "soft-drinks",
     name: "Lakanto Cola",
     price: 50,
     currency: "EGP",
-    tags: ["vegan", "sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-48",
     category: "coffee",
+    drinkSubcategory: "soft-drinks",
     name: "Club Soda",
     price: 50,
     currency: "EGP",
-    tags: ["vegan", "sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-49",
     category: "coffee",
+    drinkSubcategory: "soft-drinks",
     name: "FLO Water",
     price: 30,
     currency: "EGP",
-    tags: ["vegan", "sugar-free"],
+    tags: [],
   },
   {
     id: "coffee-50",
     category: "coffee",
+    drinkSubcategory: "soft-drinks",
     name: "Water",
     price: 20,
     currency: "EGP",
-    tags: ["vegan", "sugar-free"],
+    tags: [],
   },
 ];
 
 export function getItemsByCategory(category: MenuItem["category"]): MenuItem[] {
   return menuItems.filter((item) => item.category === category);
+}
+
+export function getItemsByDrinkSubcategory(
+  subcategory: MenuItem["drinkSubcategory"]
+): MenuItem[] {
+  return menuItems.filter((item) => item.drinkSubcategory === subcategory);
+}
+
+export function getDrinkSubcategories(): {
+  id: MenuItem["drinkSubcategory"];
+  label: string;
+}[] {
+  return [
+    { id: "hot-coffee", label: "Hot Coffee" },
+    { id: "matcha", label: "Matcha" },
+    { id: "hot-drinks", label: "Hot Drinks" },
+    { id: "iced-coffee", label: "Iced Coffee" },
+    { id: "fresh-juices", label: "Fresh Juices & Smoothies" },
+    { id: "soft-drinks", label: "Soft Drinks" },
+  ];
 }
 
 export function searchMenuItems(query: string): MenuItem[] {

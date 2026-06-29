@@ -131,6 +131,9 @@ export default function MenuSwiper({
           modules={[Keyboard]}
           keyboard={{ enabled: true }}
           allowTouchMove={!isZoomed && viewMode === "image"}
+          slidesPerView={1}
+          centeredSlides={false}
+          spaceBetween={0}
           onSwiper={(s) => {
             swiperRef.current = s;
           }}
@@ -139,9 +142,10 @@ export default function MenuSwiper({
             onSlideChange?.(s.activeIndex);
           }}
           className="h-full !overflow-hidden"
+          style={{ width: '100%' }}
         >
           {menuPages.map((page) => (
-            <SwiperSlide key={page.id} className="!h-full !overflow-hidden">
+            <SwiperSlide key={page.id} className="!h-full !overflow-hidden !w-full">
               {viewMode === "image" ? (
 
                 <div
