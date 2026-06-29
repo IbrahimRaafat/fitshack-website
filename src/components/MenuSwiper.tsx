@@ -26,7 +26,7 @@ export default function MenuSwiper({
   const [zoom, setZoom] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
   const panStartRef = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
-  const [viewMode, setViewMode] = useState<"image" | "list">("image");
+  const [viewMode, setViewMode] = useState<"image" | "list">("list");
 
   const ZOOM_MIN = 1;
   const ZOOM_MAX = 3;
