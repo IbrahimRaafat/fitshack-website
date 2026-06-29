@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { MdFilterListAlt } from "react-icons/md";
 import { cn } from "@/lib/utils";
+import RangeSlider from "./RangeSlider";
 
 export interface FilterOptions {
   search: string;
@@ -82,29 +83,17 @@ export default function MenuFilters({ onFilterChange, availableTags }: MenuFilte
 
         {isOpen && (
           <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-lg shadow-lg p-4 z-50">
-            {/* Calorie Range */}
+            {/* Calorie Range Slider */}
             <div className="mb-4">
-              <label className="block text-xs font-semibold text-muted-foreground mb-3">
-                Calories: {calorieRange[0]} - {calorieRange[1]}
-              </label>
-              <div className="space-y-2">
-                <input
-                  type="range"
-                  min="0"
-                  max="1000"
-                  value={calorieRange[0]}
-                  onChange={(e) => handleCalorieChange(Number(e.target.value), 0)}
-                  className="w-full"
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="1000"
-                  value={calorieRange[1]}
-                  onChange={(e) => handleCalorieChange(Number(e.target.value), 1)}
-                  className="w-full"
-                />
-              </div>
+              <RangeSlider
+                min={0}
+                max={1000}
+                minVal={calorieRange[0]}
+                maxVal={calorieRange[1]}
+                onMinChange={(val) => handleCalorieChange(val, 0)}
+                onMaxChange={(val) => handleCalorieChange(val, 1)}
+                label="Calories"
+              />
             </div>
 
             {/* Tags */}
