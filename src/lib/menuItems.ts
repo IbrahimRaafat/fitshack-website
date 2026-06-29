@@ -56,7 +56,7 @@ export const menuItems: MenuItem[] = [
     price: 350,
     currency: "EGP",
     nutrition: { calories: 346, protein: 20.1, carbs: 8, fat: 24.4 },
-    tags: ["high-protein", "omega-3"],
+    tags: ["high-protein"],
   },
   {
     id: "deli-5",
@@ -76,7 +76,7 @@ export const menuItems: MenuItem[] = [
     price: 240,
     currency: "EGP",
     nutrition: { calories: 316, protein: 23.5, carbs: 6.4, fat: 21.2 },
-    tags: ["high-protein", "omega-3"],
+    tags: ["high-protein"],
   },
   {
     id: "deli-7",

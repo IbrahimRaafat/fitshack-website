@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { MenuItem, getItemsByCategory } from "@/lib/menuItems";
+import { MenuItem, menuItems, getItemsByCategory } from "@/lib/menuItems";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import MenuFilters, { FilterOptions } from "./MenuFilters";
@@ -80,25 +80,29 @@ function NutritionBadges({ nutrition }: { nutrition?: MenuItem["nutrition"] }) {
 }
 
 export default function MenuItemList({ category }: MenuItemListProps) {
-  const allItems = getItemsByCategory(category as any);
+  const currentCategoryItems = getItemsByCategory(category as any);
   const [filters, setFilters] = useState<FilterOptions>({
     search: "",
     tags: [],
-    priceRange: [0, 1000],
+    calorieRange: [0, 1000],
   });
 
-  // Get all unique tags
+  // Get all unique tags, with keto, vegan, vegetarian always available
   const availableTags = useMemo(() => {
-    const tags = new Set<string>();
-    allItems.forEach((item) => {
-      item.tags?.forEach((tag) => tags.add(tag));
+    const tags = new Set<string>(["keto", "vegan", "vegetarian"]);
+    menuItems.forEach((item) => {
+      item.tags?.forEach((tag) => {
+        if (tag !== "omega-3") {
+          tags.add(tag);
+        }
+      });
     });
     return Array.from(tags).sort();
-  }, [allItems]);
+  }, []);
 
-  // Filter items
+  // Filter items - search across all items but show only current category
   const filteredItems = useMemo(() => {
-    return allItems
+    return menuItems
       .map((item) => {
         // Calculate fuzzy search score
         let searchScore = 0;
@@ -111,12 +115,20 @@ export default function MenuItemList({ category }: MenuItemListProps) {
         return { item, searchScore };
       })
       .filter(({ item, searchScore }) => {
+        // Only show items from current category
+        if (item.category !== category) return false;
+
         // Search filter
         if (filters.search && searchScore === 0) return false;
 
-        // Price filter
-        if (item.price < filters.priceRange[0] || item.price > filters.priceRange[1]) {
-          return false;
+        // Calorie filter (only for items with nutrition data)
+        if (item.nutrition?.calories) {
+          if (
+            item.nutrition.calories < filters.calorieRange[0] ||
+            item.nutrition.calories > filters.calorieRange[1]
+          ) {
+            return false;
+          }
         }
 
         // Tags filter
@@ -131,7 +143,7 @@ export default function MenuItemList({ category }: MenuItemListProps) {
       })
       .sort((a, b) => b.searchScore - a.searchScore) // Sort by relevance
       .map(({ item }) => item);
-  }, [allItems, filters]);
+  }, [filters, category]);
 
   if (filteredItems.length === 0) {
     return (

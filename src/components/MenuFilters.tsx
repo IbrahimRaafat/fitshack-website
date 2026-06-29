@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export interface FilterOptions {
   search: string;
   tags: string[];
-  priceRange: [number, number];
+  calorieRange: [number, number];
 }
 
 interface MenuFiltersProps {
@@ -19,12 +19,12 @@ interface MenuFiltersProps {
 export default function MenuFilters({ onFilterChange, availableTags }: MenuFiltersProps) {
   const [search, setSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [calorieRange, setCalorieRange] = useState<[number, number]>([0, 1000]);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
-    onFilterChange({ search: value, tags: selectedTags, priceRange });
+    onFilterChange({ search: value, tags: selectedTags, calorieRange });
   };
 
   const handleTagToggle = (tag: string) => {
@@ -32,24 +32,24 @@ export default function MenuFilters({ onFilterChange, availableTags }: MenuFilte
       ? selectedTags.filter((t) => t !== tag)
       : [...selectedTags, tag];
     setSelectedTags(newTags);
-    onFilterChange({ search, tags: newTags, priceRange });
+    onFilterChange({ search, tags: newTags, calorieRange });
   };
 
-  const handlePriceChange = (value: number, index: 0 | 1) => {
-    const newRange: [number, number] = [...priceRange];
+  const handleCalorieChange = (value: number, index: 0 | 1) => {
+    const newRange: [number, number] = [...calorieRange];
     newRange[index] = value;
-    setPriceRange(newRange);
-    onFilterChange({ search, tags: selectedTags, priceRange: newRange });
+    setCalorieRange(newRange);
+    onFilterChange({ search, tags: selectedTags, calorieRange: newRange });
   };
 
   const clearFilters = () => {
     setSearch("");
     setSelectedTags([]);
-    setPriceRange([0, 1000]);
-    onFilterChange({ search: "", tags: [], priceRange: [0, 1000] });
+    setCalorieRange([0, 1000]);
+    onFilterChange({ search: "", tags: [], calorieRange: [0, 1000] });
   };
 
-  const hasActiveFilters = search || selectedTags.length > 0 || priceRange[0] > 0 || priceRange[1] < 1000;
+  const hasActiveFilters = search || selectedTags.length > 0 || calorieRange[0] > 0 || calorieRange[1] < 1000;
 
   return (
     <div className="flex items-center gap-2">
@@ -82,26 +82,26 @@ export default function MenuFilters({ onFilterChange, availableTags }: MenuFilte
 
         {isOpen && (
           <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-lg shadow-lg p-4 z-50">
-            {/* Price Range */}
+            {/* Calorie Range */}
             <div className="mb-4">
               <label className="block text-xs font-semibold text-muted-foreground mb-3">
-                Price Range: {priceRange[0]} - {priceRange[1]} EGP
+                Calories: {calorieRange[0]} - {calorieRange[1]}
               </label>
               <div className="space-y-2">
                 <input
                   type="range"
                   min="0"
                   max="1000"
-                  value={priceRange[0]}
-                  onChange={(e) => handlePriceChange(Number(e.target.value), 0)}
+                  value={calorieRange[0]}
+                  onChange={(e) => handleCalorieChange(Number(e.target.value), 0)}
                   className="w-full"
                 />
                 <input
                   type="range"
                   min="0"
                   max="1000"
-                  value={priceRange[1]}
-                  onChange={(e) => handlePriceChange(Number(e.target.value), 1)}
+                  value={calorieRange[1]}
+                  onChange={(e) => handleCalorieChange(Number(e.target.value), 1)}
                   className="w-full"
                 />
               </div>
