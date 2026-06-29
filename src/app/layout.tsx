@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://fitshack-website.vercel.app";
+const siteUrl = "https://www.fitshackegypt.com";
 
 export const metadata: Metadata = {
   title: {

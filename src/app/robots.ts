@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://fitshack-website.vercel.app/sitemap.xml",
+    sitemap: "https://www.fitshackegypt.com/sitemap.xml",
   };
 }
