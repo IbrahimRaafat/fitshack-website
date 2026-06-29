@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { MenuItem, getItemsByCategory, getItemsByDrinkSubcategory, getDrinkSubcategories } from "@/lib/menuItems";
-import { categoryNotes } from "@/lib/menuData";
+import { categoryNotes, universalNote } from "@/lib/menuData";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import MenuFilters from "./MenuFilters";
@@ -82,7 +82,18 @@ export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemL
 
   return (
     <div className="p-4 h-full flex flex-col bg-card">
-      <div className="mb-4 flex-shrink-0 sticky top-0 z-40 -mx-4 px-4 py-2 bg-card border-b border-border space-y-3">
+      {/* Universal Note - Always visible at top */}
+      <div className="mb-2 flex-shrink-0 sticky top-0 z-50 -mx-4 px-4 py-2 bg-green-100/50 border-b border-green-200">
+        <p className="text-xs text-green-900 leading-relaxed font-medium">
+          {universalNote}
+        </p>
+      </div>
+
+      {/* Search Bar & Category Notes */}
+      <div className="mb-4 flex-shrink-0 sticky top-10 z-40 -mx-4 px-4 py-2 bg-card border-b border-border space-y-3">
+        <MenuFilters onGlobalSearchOpen={onGlobalSearchOpen} />
+
+        {/* Category-specific notes - shown below search */}
         {categoryNotes[category] && categoryNotes[category].length > 0 && (
           <div className="bg-green-100/50 border border-green-200 rounded-lg p-3 space-y-1.5">
             {categoryNotes[category].map((note, idx) => (
@@ -93,8 +104,7 @@ export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemL
           </div>
         )}
 
-        <MenuFilters onGlobalSearchOpen={onGlobalSearchOpen} />
-
+        {/* Drink subcategories */}
         {isDrinksCategory && (
           <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
             {drinkSubcategories.map((sub) => (
