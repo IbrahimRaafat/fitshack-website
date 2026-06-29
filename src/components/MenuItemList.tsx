@@ -10,6 +10,32 @@ interface MenuItemListProps {
   category: string;
 }
 
+// Fuzzy search function - scores based on character proximity
+function fuzzySearch(query: string, text: string): number {
+  const q = query.toLowerCase();
+  const t = text.toLowerCase();
+
+  if (!q) return 1; // No query = perfect match
+  if (t.includes(q)) return 100; // Exact substring match = highest score
+
+  let score = 0;
+  let queryIndex = 0;
+  let lastMatchPos = -1;
+
+  for (let i = 0; i < t.length && queryIndex < q.length; i++) {
+    if (t[i] === q[queryIndex]) {
+      // Character matches - score is higher for consecutive matches
+      const gap = i - lastMatchPos;
+      score += Math.max(0, 10 - gap * 0.5); // Penalize gaps
+      lastMatchPos = i;
+      queryIndex++;
+    }
+  }
+
+  // Only return score if all characters matched
+  return queryIndex === q.length ? score : 0;
+}
+
 function NutritionBadges({ nutrition }: { nutrition?: MenuItem["nutrition"] }) {
   if (!nutrition) return null;
 
@@ -72,31 +98,39 @@ export default function MenuItemList({ category }: MenuItemListProps) {
 
   // Filter items
   const filteredItems = useMemo(() => {
-    return allItems.filter((item) => {
-      // Search filter
-      if (filters.search) {
-        const query = filters.search.toLowerCase();
-        const matchesSearch =
-          item.name.toLowerCase().includes(query) ||
-          item.description?.toLowerCase().includes(query);
-        if (!matchesSearch) return false;
-      }
+    return allItems
+      .map((item) => {
+        // Calculate fuzzy search score
+        let searchScore = 0;
+        if (filters.search) {
+          const nameScore = fuzzySearch(filters.search, item.name);
+          const descScore = fuzzySearch(filters.search, item.description || "");
+          searchScore = Math.max(nameScore, descScore);
+        }
 
-      // Price filter
-      if (item.price < filters.priceRange[0] || item.price > filters.priceRange[1]) {
-        return false;
-      }
+        return { item, searchScore };
+      })
+      .filter(({ item, searchScore }) => {
+        // Search filter
+        if (filters.search && searchScore === 0) return false;
 
-      // Tags filter
-      if (filters.tags.length > 0) {
-        const hasMatchingTag = filters.tags.some((tag) =>
-          item.tags?.includes(tag)
-        );
-        if (!hasMatchingTag) return false;
-      }
+        // Price filter
+        if (item.price < filters.priceRange[0] || item.price > filters.priceRange[1]) {
+          return false;
+        }
 
-      return true;
-    });
+        // Tags filter
+        if (filters.tags.length > 0) {
+          const hasMatchingTag = filters.tags.some((tag) =>
+            item.tags?.includes(tag)
+          );
+          if (!hasMatchingTag) return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => b.searchScore - a.searchScore) // Sort by relevance
+      .map(({ item }) => item);
   }, [allItems, filters]);
 
   if (filteredItems.length === 0) {

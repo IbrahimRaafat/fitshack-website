@@ -54,11 +54,13 @@ export default function MenuFilters({ onFilterChange, availableTags }: MenuFilte
     <div className="flex items-center gap-2">
       {/* Search Bar */}
       <input
-        type="text"
+        type="search"
+        inputMode="search"
         placeholder="Search menu..."
         value={search}
         onChange={(e) => handleSearchChange(e.target.value)}
         className="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 bg-card"
+        style={{ fontSize: "16px" }}
       />
 
       {/* Filter Button */}
