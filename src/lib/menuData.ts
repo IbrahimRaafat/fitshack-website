@@ -21,13 +21,18 @@ export const categoryNotes: Record<string, string[]> = {
     "Served with Healthy Sauir Kraut or Kimchi",
   ],
   hot: [
+    "All Sandwiches are served in Gluten-Free & Low-carb Bread, using pure local meat.",
+    "Served with Healthy Sauir Kraut or Kimchi",
+  ],
+  vegan: [
     "All Sandwiches are served in Gluten-Free & Low-carb Bread.",
     "All Dishes are served with Healthy Sauir Kraut or Kimchi",
   ],
-  vegan: [],
   snacks: [
-    "All Snacks are Gluten-free & Low-Carb",
+    "All Snacks are Gluten-Free & Low-Carb",
   ],
-  desserts: [],
+  desserts: [
+    "All desserts are Gluten-Free & Low-Carb",
+  ],
   coffee: [],
 };
