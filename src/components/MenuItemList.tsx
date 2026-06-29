@@ -1,40 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { MenuItem, menuItems, getItemsByCategory } from "@/lib/menuItems";
+import { MenuItem, getItemsByCategory } from "@/lib/menuItems";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import MenuFilters, { FilterOptions } from "./MenuFilters";
+import MenuFilters from "./MenuFilters";
 
 interface MenuItemListProps {
   category: string;
   onGlobalSearchOpen?: () => void;
-}
-
-// Fuzzy search function - scores based on character proximity
-function fuzzySearch(query: string, text: string): number {
-  const q = query.toLowerCase();
-  const t = text.toLowerCase();
-
-  if (!q) return 1; // No query = perfect match
-  if (t.includes(q)) return 100; // Exact substring match = highest score
-
-  let score = 0;
-  let queryIndex = 0;
-  let lastMatchPos = -1;
-
-  for (let i = 0; i < t.length && queryIndex < q.length; i++) {
-    if (t[i] === q[queryIndex]) {
-      // Character matches - score is higher for consecutive matches
-      const gap = i - lastMatchPos;
-      score += Math.max(0, 10 - gap * 0.5); // Penalize gaps
-      lastMatchPos = i;
-      queryIndex++;
-    }
-  }
-
-  // Only return score if all characters matched
-  return queryIndex === q.length ? score : 0;
 }
 
 function NutritionBadges({ nutrition }: { nutrition?: MenuItem["nutrition"] }) {
@@ -81,79 +54,16 @@ function NutritionBadges({ nutrition }: { nutrition?: MenuItem["nutrition"] }) {
 }
 
 export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemListProps) {
-  const currentCategoryItems = getItemsByCategory(category as any);
-  const [filters, setFilters] = useState<FilterOptions>({
-    search: "",
-    tags: [],
-    calorieRange: [0, 1000],
-  });
+  const items = getItemsByCategory(category as any);
 
-  // Get all unique tags, with keto, vegan, vegetarian always available
-  const availableTags = useMemo(() => {
-    const tags = new Set<string>(["keto", "vegan", "vegetarian"]);
-    menuItems.forEach((item) => {
-      item.tags?.forEach((tag) => {
-        if (tag !== "omega-3") {
-          tags.add(tag);
-        }
-      });
-    });
-    return Array.from(tags).sort();
-  }, []);
-
-  // Filter items - search across all items but show only current category
-  const filteredItems = useMemo(() => {
-    return menuItems
-      .map((item) => {
-        // Calculate fuzzy search score
-        let searchScore = 0;
-        if (filters.search) {
-          const nameScore = fuzzySearch(filters.search, item.name);
-          const descScore = fuzzySearch(filters.search, item.description || "");
-          searchScore = Math.max(nameScore, descScore);
-        }
-
-        return { item, searchScore };
-      })
-      .filter(({ item, searchScore }) => {
-        // Only show items from current category
-        if (item.category !== category) return false;
-
-        // Search filter
-        if (filters.search && searchScore === 0) return false;
-
-        // Calorie filter (only for items with nutrition data)
-        if (item.nutrition?.calories) {
-          if (
-            item.nutrition.calories < filters.calorieRange[0] ||
-            item.nutrition.calories > filters.calorieRange[1]
-          ) {
-            return false;
-          }
-        }
-
-        // Tags filter
-        if (filters.tags.length > 0) {
-          const hasMatchingTag = filters.tags.some((tag) =>
-            item.tags?.includes(tag)
-          );
-          if (!hasMatchingTag) return false;
-        }
-
-        return true;
-      })
-      .sort((a, b) => b.searchScore - a.searchScore) // Sort by relevance
-      .map(({ item }) => item);
-  }, [filters, category]);
-
-  if (filteredItems.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="p-4 h-full flex flex-col">
         <div className="mb-4">
-          <MenuFilters onFilterChange={setFilters} availableTags={availableTags} />
+          <MenuFilters onGlobalSearchOpen={onGlobalSearchOpen} />
         </div>
         <div className="flex-1 flex items-center justify-center">
-          <p className="text-muted-foreground">No items match your filters.</p>
+          <p className="text-muted-foreground">No items in this category.</p>
         </div>
       </div>
     );
@@ -162,14 +72,10 @@ export default function MenuItemList({ category, onGlobalSearchOpen }: MenuItemL
   return (
     <div className="p-4 h-full flex flex-col bg-card">
       <div className="mb-4 flex-shrink-0 sticky top-0 z-40 -mx-4 px-4 py-2 bg-card border-b border-border">
-        <MenuFilters
-          onFilterChange={setFilters}
-          availableTags={availableTags}
-          onGlobalSearchOpen={onGlobalSearchOpen}
-        />
+        <MenuFilters onGlobalSearchOpen={onGlobalSearchOpen} />
       </div>
       <div className="flex-1 overflow-y-auto space-y-2.5 pr-2">
-        {filteredItems.map((item) => (
+        {items.map((item) => (
           <Card key={item.id} className="hover:shadow-md transition-shadow hover:bg-muted/50">
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between gap-3">
