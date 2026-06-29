@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { X, Settings } from "lucide-react";
+import { X } from "lucide-react";
+import { MdFilterListAlt } from "react-icons/md";
 import { cn } from "@/lib/utils";
 
 export interface FilterOptions {
@@ -75,7 +76,7 @@ export default function MenuFilters({ onFilterChange, availableTags }: MenuFilte
           )}
           title="Filter menu"
         >
-          <Settings className="w-5 h-5" />
+          <MdFilterListAlt className="w-5 h-5" />
           {hasActiveFilters && <span className="w-2 h-2 bg-primary rounded-full" />}
         </button>
 
